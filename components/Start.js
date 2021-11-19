@@ -21,7 +21,6 @@ export default class Start extends React.Component {
 
           {/* Page title */}
           <Text style={styles.title}>Hello-World!</Text>
-          <Image source={require("../assets/icon.png")} />
 
           <View style={styles.secondaryContainer}>
 
@@ -36,13 +35,15 @@ export default class Start extends React.Component {
               <Text style={styles.colorText}>Choose your background color</Text>
               <View style={styles.colors}>
 
-                <TouchableOpacity style={styles.color1} onPress={() => this.setState({ bgColor: "#090208" })}></TouchableOpacity>
+                <TouchableOpacity style={styles.color1} onPress={() => this.setState({ bgColor: "#fff" })}></TouchableOpacity>
 
-                <TouchableOpacity style={styles.color2} onPress={() => this.setState({ bgColor: "#474056" })}></TouchableOpacity>
+                <TouchableOpacity style={styles.color2} onPress={() => this.setState({ bgColor: "#090208" })}></TouchableOpacity>
 
-                <TouchableOpacity style={styles.color3} onPress={() => this.setState({ bgColor: "#8a95a5" })}></TouchableOpacity>                
+                <TouchableOpacity style={styles.color3} onPress={() => this.setState({ bgColor: "#474056" })}></TouchableOpacity>
 
-                <TouchableOpacity style={styles.color4} onPress={() => this.setState({ bgColor: "#b9c6ae" })}></TouchableOpacity>                
+                <TouchableOpacity style={styles.color4} onPress={() => this.setState({ bgColor: "#8a95a5" })}></TouchableOpacity>
+
+                <TouchableOpacity style={styles.color5} onPress={() => this.setState({ bgColor: "#b9c6ae" })}></TouchableOpacity>
 
               </View>
             </View>
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
   },
 
   secondaryContainer: {
+    flex: 1,
     width: "88%",
     height: "44%",
     minHeight: 240,
@@ -119,9 +121,10 @@ const styles = StyleSheet.create({
   },
 
   colorText: {
+    flex: 1,
     fontSize: 16,
     fontWeight: "300",
-    color: "black",
+    color: "#090208",
     textAlign: "center",
   },
 
@@ -137,33 +140,41 @@ const styles = StyleSheet.create({
   },
 
   color1: {
+    backgroundColor: "#fff",
     width: 40,
     height: 40,
-    backgroundColor: "#090208",
     borderRadius: 40,
     borderWidth: 2,
   },
 
   color2: {
+    backgroundColor: "#090208",
     width: 40,
     height: 40,
-    backgroundColor: "#474056",
     borderRadius: 40,
     borderWidth: 2,
   },
 
   color3: {
+    backgroundColor: "#474056",
     width: 40,
     height: 40,
-    backgroundColor: "#8a95a5",
     borderRadius: 40,
     borderWidth: 2,
   },
 
   color4: {
+    backgroundColor: "#8a95a5",
     width: 40,
     height: 40,
+    borderRadius: 40,
+    borderWidth: 2,
+  },
+
+  color5: {
     backgroundColor: "#b9c6ae",
+    width: 40,
+    height: 40,
     borderRadius: 40,
     borderWidth: 2,
   },
