@@ -14,4 +14,6 @@ Will feature serverall accessibility features.
 
 To use app, install expo cli by using your terminal: npm install --global expo-cli.  Then start expo in your terminal with: expo start.
 
+Sign into or create an account with Google firebase, and use credientials to set up database.
+
 You can run it on your mobile device by installing the Expo mobile app or on your computer by downloading and installing a simulator/emulator.  Android Studio was used during development.  iOS Simulator for MacOS.
