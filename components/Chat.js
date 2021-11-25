@@ -4,13 +4,16 @@ import { Bubble, GiftedChat, InputToolbar } from 'react-native-gifted-chat'
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 import { LogBox } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import MapView from 'react-native-maps';
+import CustomActions from './CustomActions';
 
-
-LogBox.ignoreLogs(['Setting a timer']);
-
+// disables warnings
+LogBox.ignoreLogs(['Setting a timer', 'undefined']);
+LogBox.ignoreLogs(['expo-permissions is now deprecated', 'undefined'])
 
 // configures firebase
 const firebaseConfig = {
@@ -33,6 +36,9 @@ export default class Chat extends React.Component {
         name: '',
       },
       messages: [],
+      isConected: false,
+      image: null,
+      location: null,
     };
     //starts firebase
     if (!firebase.apps.length) {
@@ -41,15 +47,6 @@ export default class Chat extends React.Component {
     //registers for updates
     this.referenceChatMessages = firebase.firestore().collection("messages");
     this.referenceMessageUser = null;
-    this.state - {
-      messages: [],
-      uid: 0,
-      user: {
-        _id: '',
-        name: '',
-      },
-      isConected: false,
-    }
   }
 
   // Mounts system messages
@@ -66,6 +63,10 @@ export default class Chat extends React.Component {
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
           if (!user) {
             firebase.auth().signInAnonymously();
+            user = {
+              uid: 1,
+              name: this.props.route.params.name
+            }
           }
           this.setState({
             uid: user.uid,
@@ -107,6 +108,8 @@ export default class Chat extends React.Component {
         text: data.text || "",
         createdAt: data.createdAt.toDate(),
         user: data.user,
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -120,9 +123,11 @@ export default class Chat extends React.Component {
     this.referenceChatMessages.add({
       uid: this.state.uid,
       _id: message._id,
-      text: message.text,
+      text: message.text || null,
       createdAt: message.createdAt,
       user: this.state.user,
+      image: message.image || null,
+      location: message.location || null,
     })
   }
 
@@ -199,6 +204,29 @@ export default class Chat extends React.Component {
     }
   }
 
+  // displays actionsheet
+  renderCustomActions = (props) => {
+    return <CustomActions {...props} />;
+  };
+
+  // renders custom map view
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
 
   render() {
 
@@ -213,12 +241,14 @@ export default class Chat extends React.Component {
 
         {/* chatbox component */}
         <GiftedChat
-          renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
+          isConnected={this.state.isConnected}
+          renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
+          renderActions={this.renderCustomActions}
+          renderCustomView={this.renderCustomView}
           onSend={messages => this.onSend(messages)}
-          user={this.state.user}
-        />
+          user={this.state.user} />
 
         {/* button to return to start page */}
         <Button title="Go to Start" onPress={() => this.props.navigation.navigate("Start")} />
