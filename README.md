@@ -11,3 +11,7 @@ Users will aslo be able to use the app to select pictures from their app as well
 Images and user location will be able to be sent via Gifted Chat, and images will be able to be stored in Google Firebase Cloud Storage.
 
 Will feature serverall accessibility features.
+
+To use app, install expo cli by using your terminal: npm install --global expo-cli.  Then start expo in your terminal with: expo start.
+
+You can run it on your mobile device by installing the Expo mobile app or on your computer by downloading and installing a simulator/emulator.  Android Studio was used during development.  iOS Simulator for MacOS.
